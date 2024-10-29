@@ -1,4 +1,4 @@
-package com.example.tennisreservation;
+package com.tennis;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
