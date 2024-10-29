@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tennis.api.repository.TennisMapper">
+    <delete id="deleteAll">
+        TRUNCATE TABLE tennis;
+    </delete>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tennis (
+            gubun
+            , region
+            , svc_id
+            , max_class_nm
+            , min_class_nm
+            , svc_stat_nm
+            , svc_nm
+            , pay_at_nm
+            , place_nm
+            , use_tgt_info
+            , svc_url
+            , x
+            , y
+            , svc_opn_bgn_dt
+            , svc_opn_end_dt
+            , rcpt_bgn_dt
+            , rcpt_end_dt
+            , area_nm
+            , img_url
+            , dtl_cont
+            , tel_no
+            , v_min
+            , v_max
+            , rev_std_day_nm
+            , rev_std_day
+            , created_at
+        ) VALUES (
+            #{gubun}
+            , #{region}
+            , #{svcId}
+            , #{maxClassNm}
+            , #{minClassNm}
+            , #{svcStatNm}
+            , #{svcNm}
+            , #{payAtNm}
+            , #{placeNm}
+            , #{useTgtInfo}
+            , #{svcUrl}
+            , #{x}
+            , #{y}
+            , #{svcOpnBgnDt}
+            , #{svcOpnEndDt}
+            , #{rcptBgnDt}
+            , #{rcptEndDt}
+            , #{areaNm}
+            , #{imgUrl}
+            , #{dtlCont}
+            , #{telNo}
+            , #{vMin}
+            , #{vMax}
+            , #{revStdDayNm}
+            , #{revStdDay}
+            , NOW()
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE tennis SET
+            svc_stat_nm = #{svcStatNm}
+            , svc_nm = #{svcNm}
+            , svc_opn_end_dt = #{svcOpnEndDt}
+            , rcpt_end_dt = #{rcptEndDt}
+            , updated_at = NOW()
+        WHERE
+            svc_id = #{svcId}
+    </update>
+</mapper>
