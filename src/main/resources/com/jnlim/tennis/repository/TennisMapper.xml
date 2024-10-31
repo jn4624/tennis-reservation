@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnlim.tennis.repository.TennisMapper">
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tennis (
+            region,
+            service_id,
+            service_status,
+            service_name,
+            pay_at,
+            use_target,
+            service_url,
+            longitude,
+            latitude,
+            receipt_begin_date_Time,
+            receipt_end_date_Time,
+            area_name,
+            image_url,
+            detail_content,
+            tel_no,
+            service_begin_time,
+            service_end_time,
+            cancel_standard,
+            cancel_standard_day,
+            created_at
+        ) VALUES (
+            #{region},
+            #{serviceId},
+            #{serviceStatus},
+            #{serviceName},
+            #{payAt},
+            #{useTarget},
+            #{serviceUrl},
+            #{longitude},
+            #{latitude},
+            #{receiptBeginDateTime},
+            #{receiptEndDateTime},
+            #{areaName},
+            #{imageUrl},
+            #{detailContent},
+            #{telNo},
+            #{serviceBeginTime},
+            #{serviceEndTime},
+            #{cancelStandard},
+            #{cancelStandardDay},
+            #{createdAt}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE tennis SET
+            service_status = #{serviceStatus},
+            service_name = #{serviceName},
+            receipt_end_date_Time = #{receiptEndDateTime},
+            updated_at = #{updatedAt}
+        WHERE
+            service_id = #{serviceId}
+    </update>
+
+    <delete id="deleteAll">
+        TRUNCATE TABLE tennis;
+    </delete>
+</mapper>
