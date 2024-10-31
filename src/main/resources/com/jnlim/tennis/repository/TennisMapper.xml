@@ -61,4 +61,44 @@
     <delete id="deleteAll">
         TRUNCATE TABLE tennis;
     </delete>
+
+    <select id="findAllByOrderByIdAsc" parameterType="TennisQueryDTO" resultType="TennisDTO">
+        SELECT
+            id,
+            service_status,
+            service_name,
+            pay_at,
+            use_target
+        FROM
+            tennis
+        ORDER BY id ASC
+            LIMIT
+                 #{page}, #{size}
+    </select>
+
+    <select id="findById" parameterType="TennisQueryDTO" resultType="TennisDetailDTO">
+        SELECT
+            id,
+            service_status,
+            service_name,
+            pay_at,
+            use_target,
+            service_url,
+            longitude,
+            latitude,
+            receipt_begin_date_Time,
+            receipt_end_date_Time,
+            area_name,
+            image_url,
+            detail_content,
+            tel_no,
+            service_begin_time,
+            service_end_time,
+            cancel_standard,
+            cancel_standard_day
+        FROM
+            tennis
+        WHERE
+            id = #{id}
+    </select>
 </mapper>

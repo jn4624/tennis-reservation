@@ -9,3 +9,8 @@ services:
       - ./database/init:/docker-entrypoint-initdb.d
     ports:
       - 3306:3306
+  cache-server:
+    container_name: cache-server
+    image: redis
+    ports:
+      - 6379:6379
