@@ -1,7 +1,6 @@
 package com.jnlim.tennis.repository;
 
 import com.jnlim.tennis.dto.TennisDTO;
-import com.jnlim.tennis.dto.TennisDetailDTO;
 import com.jnlim.tennis.dto.TennisQueryDTO;
 import com.jnlim.tennis.entity.Tennis;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,7 +15,7 @@ public interface TennisMapper {
 
     void deleteAll();
 
-    List<TennisDTO> findAllByOrderByIdAsc(TennisQueryDTO tennisQueryDto);
+    List<TennisDTO> findAllByPageable(TennisQueryDTO tennisQueryDto);
 
-    TennisDetailDTO findById(TennisQueryDTO tennisQueryDto);
+    TennisDTO findById(TennisQueryDTO tennisQueryDto);
 }

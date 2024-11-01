@@ -24,7 +24,7 @@ public class RedisTemplateService {
         String value = redisTemplate.opsForValue().get(key);
 
         if (value == null) {
-            log.error("[RedisTemplateService get] cache miss for key: {}", key);
+            log.info("[RedisTemplateService get] cache miss for key: {}", key);
             return Optional.empty();
         }
 
