@@ -24,7 +24,6 @@ public class TennisController {
     public ApiResponse<List<TennisDTO>> getTennisList(@RequestParam(defaultValue = "0") int page,
                                                      @RequestParam(defaultValue = "10") int length) {
         List<TennisDTO> tennisList = tennisService.getTennisList(page, length);
-        System.out.println("tennisList = " + tennisList);
         return success(tennisList);
     }
 

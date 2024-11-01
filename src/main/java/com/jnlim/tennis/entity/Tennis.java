@@ -35,7 +35,7 @@ public class Tennis {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public static Tennis of(RowDTO rowDto) {
+    public static Tennis ofSave(RowDTO rowDto) {
         return Tennis.builder()
                 .region("SEOUL")
                 .serviceId(rowDto.getSvcId())
@@ -58,6 +58,19 @@ public class Tennis {
                 .cancelStandard(rowDto.getRevStdDayNm())
                 .cancelStandardDay(rowDto.getRevStdDay())
                 .createdAt(LocalDateTime.now())
+                .build();
+    }
+
+    public static Tennis ofUpdate(RowDTO rowDto) {
+        return Tennis.builder()
+                .serviceId(rowDto.getSvcId())
+                .serviceStatus(rowDto.getSvcStatNm())
+                .serviceName(rowDto.getSvcNm())
+                .receiptBeginDateTime(parseToLocalDateTime(rowDto.getRcptBgnDt()))
+                .receiptEndDateTime(parseToLocalDateTime(rowDto.getRcptEndDt()))
+                .serviceBeginTime(rowDto.getVMin())
+                .serviceEndTime(rowDto.getVMax())
+                .updatedAt(LocalDateTime.now())
                 .build();
     }
 }

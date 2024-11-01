@@ -2,7 +2,6 @@ package com.jnlim.tennis.service.impl;
 
 import com.jnlim.cache.RedisTemplateService;
 import com.jnlim.tennis.dto.TennisDTO;
-import com.jnlim.tennis.dto.TennisQueryDTO;
 import com.jnlim.tennis.repository.TennisMapper;
 import com.jnlim.tennis.service.TennisService;
 import org.springframework.cache.annotation.Cacheable;
@@ -26,7 +25,7 @@ public class TennisServiceImpl implements TennisService {
                 cacheManager = "tennisCacheManager")
     @Override
     public List<TennisDTO> getTennisList(int page, int size) {
-        return tennisMapper.findAllByPageable(new TennisQueryDTO(page, size));
+        return tennisMapper.findAllByPageable(page, size);
     }
 
     @Override
@@ -38,7 +37,7 @@ public class TennisServiceImpl implements TennisService {
             return cache.get();
         }
 
-        TennisDTO databaseData = tennisMapper.findById(new TennisQueryDTO(id));
+        TennisDTO databaseData = tennisMapper.findById(id);
         redisTemplateService.set(key, databaseData, 10L);
 
         return databaseData;

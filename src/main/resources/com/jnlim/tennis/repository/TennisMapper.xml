@@ -54,7 +54,10 @@
         UPDATE tennis SET
             service_status = #{serviceStatus},
             service_name = #{serviceName},
+            receipt_begin_date_time = #{receiptBeginDateTime},
             receipt_end_date_Time = #{receiptEndDateTime},
+            service_begin_time = #{serviceBeginTime},
+            service_end_time = #{serviceEndTime},
             updated_at = #{updatedAt}
         WHERE
             service_id = #{serviceId}
@@ -64,9 +67,42 @@
         TRUNCATE TABLE tennis;
     </delete>
 
-    <select id="findAllByPageable" parameterType="TennisQueryDTO" resultType="TennisDTO">
+    <delete id="deleteByServiceId">
+        DELETE FROM tennis
+        WHERE service_id = #{serviceId}
+    </delete>
+
+    <select id="findAll" resultType="TennisDTO">
         SELECT
             id,
+            region,
+            service_id,
+            service_status,
+            service_name,
+            pay_at,
+            place_name,
+            use_target,
+            service_url,
+            longitude,
+            latitude,
+            receipt_begin_date_Time,
+            receipt_end_date_Time,
+            area_name,
+            image_url,
+            detail_content,
+            tel_no,
+            service_begin_time,
+            service_end_time,
+            cancel_standard,
+            cancel_standard_day
+        FROM
+            tennis
+    </select>
+
+    <select id="findAllByPageable">
+        SELECT
+            id,
+            region,
             service_id,
             service_status,
             service_name,
@@ -91,9 +127,10 @@
         LIMIT #{page}, #{size}
     </select>
 
-    <select id="findById" parameterType="TennisQueryDTO" resultType="TennisDTO">
+    <select id="findById">
         SELECT
             id,
+            region,
             service_id,
             service_status,
             service_name,
