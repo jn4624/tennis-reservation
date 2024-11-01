@@ -8,6 +8,7 @@ CREATE TABLE `tennis`
     `service_status` varchar(10) DEFAULT NULL,
     `service_name` varchar(100) DEFAULT NULL,
     `pay_at` varchar(10) DEFAULT NULL,
+    `place_name` varchar(30) DEFAULT NULL,
     `use_target` varchar(50) DEFAULT NULL,
     `service_url` varchar(200) DEFAULT NULL,
     `longitude` double DEFAULT NULL,
