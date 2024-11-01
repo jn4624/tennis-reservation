@@ -17,6 +17,7 @@ public class Tennis {
     private String serviceStatus;
     private String serviceName;
     private String payAt;
+    private String placeName;
     private String useTarget;
     private String serviceUrl;
     private double longitude;
@@ -41,6 +42,7 @@ public class Tennis {
                 .serviceStatus(rowDto.getSvcStatNm())
                 .serviceName(rowDto.getSvcNm())
                 .payAt(rowDto.getPayAtNm())
+                .placeName(rowDto.getPlaceNm())
                 .useTarget(rowDto.getUseTgtInfo())
                 .serviceUrl(rowDto.getSvcUrl())
                 .longitude(Double.parseDouble(rowDto.getX()))
