@@ -2,14 +2,13 @@ package com.jnlim.tennis.controller;
 
 import com.jnlim.common.response.ApiResponse;
 import com.jnlim.tennis.dto.TennisDTO;
-import com.jnlim.tennis.dto.TennisDetailDTO;
 import com.jnlim.tennis.service.TennisService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.jnlim.common.response.ApiResponse.*;
+import static com.jnlim.common.response.ApiResponse.success;
 
 @Slf4j
 @RestController
@@ -30,7 +29,7 @@ public class TennisController {
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<TennisDetailDTO> getTennis(@PathVariable(name = "id") Long id) {
+    public ApiResponse<TennisDTO> getTennis(@PathVariable(name = "id") Long id) {
         return success(tennisService.getTennis(id));
     }
 }

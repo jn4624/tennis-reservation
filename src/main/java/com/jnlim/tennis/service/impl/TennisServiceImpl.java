@@ -2,7 +2,6 @@ package com.jnlim.tennis.service.impl;
 
 import com.jnlim.cache.RedisTemplateService;
 import com.jnlim.tennis.dto.TennisDTO;
-import com.jnlim.tennis.dto.TennisDetailDTO;
 import com.jnlim.tennis.dto.TennisQueryDTO;
 import com.jnlim.tennis.repository.TennisMapper;
 import com.jnlim.tennis.service.TennisService;
@@ -27,19 +26,19 @@ public class TennisServiceImpl implements TennisService {
                 cacheManager = "tennisCacheManager")
     @Override
     public List<TennisDTO> getTennisList(int page, int size) {
-        return tennisMapper.findAllByOrderByIdAsc(new TennisQueryDTO(page, size));
+        return tennisMapper.findAllByPageable(new TennisQueryDTO(page, size));
     }
 
     @Override
-    public TennisDetailDTO getTennis(Long id) {
+    public TennisDTO getTennis(Long id) {
         String key = "getTennis::tennis:id:" + id;
-        Optional<TennisDetailDTO> cache = redisTemplateService.get(key, TennisDetailDTO.class);
+        Optional<TennisDTO> cache = redisTemplateService.get(key, TennisDTO.class);
 
         if (cache.isPresent()) {
             return cache.get();
         }
 
-        TennisDetailDTO databaseData = tennisMapper.findById(new TennisQueryDTO(id));
+        TennisDTO databaseData = tennisMapper.findById(new TennisQueryDTO(id));
         redisTemplateService.set(key, databaseData, 10L);
 
         return databaseData;
