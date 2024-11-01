@@ -1,14 +1,15 @@
 package com.jnlim.init;
 
-import com.jnlim.api.seoul.service.SeoulTennisSearchService;
-import com.jnlim.tennis.entity.Tennis;
-import com.jnlim.tennis.repository.TennisMapper;
 import com.jnlim.api.seoul.dto.RowDTO;
+import com.jnlim.api.seoul.service.SeoulTennisSearchService;
+import com.jnlim.tennis.repository.TennisMapper;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
+import static com.jnlim.tennis.entity.Tennis.ofSave;
 
 @Slf4j
 @Component
@@ -35,7 +36,7 @@ public class InitHandler {
         log.info("[InitHandler init] seoul tennis reservation row list size: {}", rowList.size());
 
         for (RowDTO rowDto : rowList) {
-            tennisMapper.save(Tennis.of(rowDto));
+            tennisMapper.save(ofSave(rowDto));
         }
     }
 }
