@@ -3,7 +3,7 @@ services:
     container_name: database-server
     image: mysql
     environment:
-      - MYSQL_DATABASE=seoul-tennis
+      - MYSQL_DATABASE=tennis-reservation
       - MYSQL_ROOT_PASSWORD=password
     volumes:
       - ./database/init:/docker-entrypoint-initdb.d
