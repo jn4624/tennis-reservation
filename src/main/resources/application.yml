@@ -29,3 +29,11 @@ open:
 logging:
   level:
     org.springframework.cache: trace
+
+springdoc:
+  swagger-ui:
+    path: /tennis-api
+    groups-order: desc
+    tags-sorter: alpha
+    operations-sorter: method
+  paths-to-match: /tennis/**
