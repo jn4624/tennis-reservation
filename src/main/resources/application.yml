@@ -25,6 +25,9 @@ open:
       key: ${SEOUL_REST_API_KEY}
       type: json
       service: ListPublicReservationSport
+    kakao:
+      url: https://dapi.kakao.com
+      key: ${KAKAO_REST_API_KEY}
 
 logging:
   level:
