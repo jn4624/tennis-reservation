@@ -1,5 +1,6 @@
 package com.jnlim.tennis.service.impl;
 
+import com.jnlim.api.kakao.service.KakaoKeywordSearchService;
 import com.jnlim.cache.RedisTemplateService;
 import com.jnlim.tennis.dto.TennisDTO;
 import com.jnlim.tennis.repository.TennisMapper;
@@ -12,12 +13,16 @@ import java.util.Optional;
 
 @Service
 public class TennisServiceImpl implements TennisService {
+    private static final String REDIRECT_URL = "https://map.kakao.com/link/map/";
+
     private final TennisMapper tennisMapper;
     private final RedisTemplateService redisTemplateService;
+    private final KakaoKeywordSearchService kakaoKeywordSearchService;
 
-    public TennisServiceImpl(TennisMapper tennisMapper, RedisTemplateService redisTemplateService) {
+    public TennisServiceImpl(TennisMapper tennisMapper, RedisTemplateService redisTemplateService, KakaoKeywordSearchService kakaoKeywordSearchService) {
         this.tennisMapper = tennisMapper;
         this.redisTemplateService = redisTemplateService;
+        this.kakaoKeywordSearchService = kakaoKeywordSearchService;
     }
 
     @Cacheable(cacheNames = "getTennisList",
@@ -41,5 +46,17 @@ public class TennisServiceImpl implements TennisService {
         redisTemplateService.set(key, databaseData, 10L);
 
         return databaseData;
+    }
+
+    @Override
+    public String getTennisLocationURL(Long id) {
+        String placeId = getPlaceIdFromKakao(tennisMapper.findById(id));
+        return REDIRECT_URL + placeId;
+    }
+
+    private String getPlaceIdFromKakao(TennisDTO tennisDto) {
+        return kakaoKeywordSearchService
+                .requestKakaoKeywordSearch(tennisDto.getPlaceName(), tennisDto.getLongitude(), tennisDto.getLatitude())
+                .getPlaceId();
     }
 }
