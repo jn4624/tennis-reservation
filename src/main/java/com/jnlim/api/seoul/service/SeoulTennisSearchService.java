@@ -1,23 +1,24 @@
 package com.jnlim.api.seoul.service;
 
-import com.jnlim.api.seoul.dto.SeoulApiResponseDTO;
+import com.jnlim.api.seoul.dto.ListPublicReservationSportDTO;
 import com.jnlim.api.seoul.dto.RowDTO;
+import com.jnlim.api.seoul.dto.SeoulApiResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 @Service
 public class SeoulTennisSearchService {
-    private final RestTemplate restTemplate;
+    private final RestClient restClient;
     private final SeoulUriBuilderService seoulUriBuilderService;
 
-    public SeoulTennisSearchService(RestTemplate restTemplate, SeoulUriBuilderService seoulUriBuilderService) {
-        this.restTemplate = restTemplate;
+    public SeoulTennisSearchService(RestClient.Builder restClientBuilder, SeoulUriBuilderService seoulUriBuilderService) {
+        this.restClient = restClientBuilder.build();
         this.seoulUriBuilderService = seoulUriBuilderService;
     }
 
@@ -30,9 +31,15 @@ public class SeoulTennisSearchService {
 
         log.info("[SeoulTennisSearchService requestSeoulTennisSearch] uri: {}", uri);
 
-        return Objects.requireNonNull(restTemplate.getForObject(uri, SeoulApiResponseDTO.class))
-                .getListPublicReservationSportDto()
-                .getRowList();
+        SeoulApiResponseDTO seoulApiResponseDto = restClient.get()
+                .uri(uri)
+                .retrieve()
+                .body(SeoulApiResponseDTO.class);
+
+        return Optional.ofNullable(seoulApiResponseDto)
+                .map(SeoulApiResponseDTO::getListPublicReservationSportDto)
+                .map(ListPublicReservationSportDTO::getRowList)
+                .orElseThrow(() -> new RuntimeException("응답에서 데이터를 찾을 수 없습니다."));
     }
 
     private int requestSeoulTennisTotalCount(String startIndex, String endIndex, String minClassNm) {
@@ -40,8 +47,14 @@ public class SeoulTennisSearchService {
 
         log.info("[SeoulTennisSearchService requestSeoulTennisTotalCount] uri: {}", uri);
 
-        return Objects.requireNonNull(restTemplate.getForObject(uri, SeoulApiResponseDTO.class))
-                .getListPublicReservationSportDto()
-                .getListTotalCount();
+        SeoulApiResponseDTO seoulApiResponseDto = restClient.get()
+                .uri(uri)
+                .retrieve()
+                .body(SeoulApiResponseDTO.class);
+
+        return Optional.ofNullable(seoulApiResponseDto)
+                .map(SeoulApiResponseDTO::getListPublicReservationSportDto)
+                .map(ListPublicReservationSportDTO::getListTotalCount)
+                .orElseThrow(() -> new RuntimeException("응답에서 데이터를 찾을 수 없습니다."));
     }
 }
