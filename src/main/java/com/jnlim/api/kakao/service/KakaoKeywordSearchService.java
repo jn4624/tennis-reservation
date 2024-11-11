@@ -7,30 +7,29 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+import java.net.URI;
 import java.util.Objects;
 
 @Slf4j
 @Service
 public class KakaoKeywordSearchService {
     private final RestClient restClient;
+    private final KakaoUriBuilderService kakaoUriBuilderService;
 
     public KakaoKeywordSearchService(RestClient.Builder restClientBuilder,
-                                     @Value("${open.api.kakao.url}") String baseUrl,
+                                     KakaoUriBuilderService kakaoUriBuilderService,
                                      @Value("${open.api.kakao.key}") String openApiKey) {
         this.restClient = restClientBuilder
-                .baseUrl(baseUrl)
                 .defaultHeader("Authorization", "KakaoAK " + openApiKey)
                 .build();
+        this.kakaoUriBuilderService = kakaoUriBuilderService;
     }
 
     public DocumentDTO requestKakaoKeywordSearch(String placeName, double longitude, double latitude) {
+        URI uri = kakaoUriBuilderService.buildUriByKakao(placeName, longitude, latitude);
+
         KakaoApiResponseDTO kakaoApiResponseDto = restClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/v2/local/search/keyword.JSON")
-                        .queryParam("query", placeName)
-                        .queryParam("x", longitude)
-                        .queryParam("y", latitude)
-                        .build())
+                .uri(uri)
                 .retrieve()
                 .body(KakaoApiResponseDTO.class);
 
